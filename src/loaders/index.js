@@ -9,7 +9,7 @@ module.exports = app => {
   var module = {};
   module.mongoLoader = async () => await mongooseLoader;
   module.allRouting = expressRoute(app);
-  module.dbLoader = mySqlLoader.load;
+  module.dbLoader = mySqlLoader;
   console.log('the items have been loaded 👌');
   return module;
 };

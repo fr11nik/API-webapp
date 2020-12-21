@@ -1,8 +1,8 @@
-const registerController = require('./registerController');
 const auth = require('../auth/auth.controller');
-const userOption = {
-  register: registerController,
+const Save = require('./registerController');
+
+const method = {
+  save: Save,
   auth,
 };
-
-module.exports = userOption;
+module.exports = method;

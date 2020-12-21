@@ -8,13 +8,17 @@ const userSchemaValidation = Joi.object({
 //req , res have to change on {email, name , password} 11:47 PM
 module.exports = (req, res) => {
   const validateResult = userSchemaValidation.validate(req.body);
-  if (validateResult.error == null) {
+  if (validateResult.error != null) {
+    res.status(400).send(validateResult.error.message);
+    return;
+  }
+  if (
     userSave({
       name: req.body.name,
       email: req.body.email,
       password: req.body.password,
-    }).then(() => {
-      return res.send({message: 'The user has been succesfuly created'});
-    });
-  } else res.send(validateResult.error.message);
+    })
+  ) {
+    res.send('the user has been created (MongoDB)');
+  }
 };

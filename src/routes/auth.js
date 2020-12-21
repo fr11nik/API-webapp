@@ -2,7 +2,7 @@ const router = require('express').Router();
 const controllers = require('../controllers');
 const {verifySignUp} = require('../middlewares');
 
-router.post('/register', controllers.userController.register);
+router.post('/register',controllers.userController.save);
 
 router.post(
   '/signup',

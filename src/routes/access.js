@@ -1,7 +1,19 @@
 const {authJwt} = require('../middlewares');
 const router = require('express').Router();
-
-router.get('/verify', [authJwt.verifyToken], (res, req) => res.send('Cool'));
+const User = require('../models').user;
+const t = (req, res) => {
+  nextLayer({userId: req.userId}, res);
+};
+const nextLayer = ({userId}, res) => {
+  User.findOne({
+    where: {
+      id: userId,
+    },
+  }).then(user => {
+    res.send(user);
+  });
+};
+router.get('/verify', [authJwt.verifyToken], t);
 
 module.exports = app => {
   app.use((req, res, next) => {

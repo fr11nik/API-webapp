@@ -1,8 +1,9 @@
 const db = require('../../models');
-const config = require('../../config/auth.config');
+const config = require('../../config');
+const token = require('../token/token.controller');
+
 const User = db.user;
 const Role = db.role;
-
 const Op = db.Sequelize.Op;
 
 var jwt = require('jsonwebtoken');
@@ -60,7 +61,7 @@ exports.signin = (req, res) => {
         });
       }
 
-      var token = jwt.sign({id: user.id}, config.secret, {
+      var token = jwt.sign({id: user.id}, config.jwt.authSecret, {
         expiresIn: 86400, // 24 hours
       });
 

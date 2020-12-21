@@ -1,6 +1,7 @@
 const db = require('../models');
 const ROLES = db.ROLES;
 const User = db.user;
+const JoiVerify = require('../controllers/user/registerController');
 
 checkDuplicateUsernameOrEmail = (req, res, next) => {
   // Username
@@ -52,6 +53,7 @@ checkRolesExisted = (req, res, next) => {
 const verifySignUp = {
   checkDuplicateUsernameOrEmail: checkDuplicateUsernameOrEmail,
   checkRolesExisted: checkRolesExisted,
+  JoiVerify,
 };
 
 module.exports = verifySignUp;

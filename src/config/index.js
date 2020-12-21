@@ -27,6 +27,20 @@ const config = {
       poolAcquire: Number.parseInt(process.env.POOLACQUIRE),
       poolIdle: Number.parseInt(process.env.POOLIDLE),
     },
+    logging: false,
+  },
+  jwt: {
+    authSecret: process.env.AUTHSECRET,
+    tokens: {
+      access: {
+        type: 'access',
+        expiresIn: 1800, //30 min
+      },
+      refresh: {
+        type: 'refresh',
+        expiresIn: 2592000, //30 days
+      },
+    },
   },
 };
 module.exports = config;

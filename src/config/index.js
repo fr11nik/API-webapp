@@ -35,10 +35,12 @@ const config = {
       access: {
         type: 'access',
         expiresIn: 1800, //30 min
+        // expiresIn: 60,
       },
       refresh: {
         type: 'refresh',
         expiresIn: 2592000, //30 days
+        // expiresIn: 120,
       },
     },
   },

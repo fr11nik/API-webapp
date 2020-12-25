@@ -1,8 +1,7 @@
-const auth = require('../auth/auth.controller');
-const Save = require('./registerController');
-
+const auth = require('./auth');
+const create = require('./create');
 const method = {
-  save: Save,
   auth,
+  create,
 };
 module.exports = method;

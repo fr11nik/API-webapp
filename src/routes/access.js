@@ -10,18 +10,11 @@ const nextLayer = ({userId}, res) => {
       id: userId,
     },
   }).then(user => {
-    res.send(user);
+    user.getRoles().then(roles => {
+      res.send(roles);
+    });
   });
 };
-router.get('/verify', [authJwt.verifyToken], t);
+router.get('/verify', [authJwt.verifyToken, authJwt.isAdmin], t);
 
-module.exports = app => {
-  app.use((req, res, next) => {
-    res.header(
-      'Access-Control-Allow-Headers',
-      'x-access-token, Origin, Content-Type, Accept',
-    );
-    next();
-  });
-  return router;
-};
+module.exports = router;

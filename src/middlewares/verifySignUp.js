@@ -1,9 +1,10 @@
 const db = require('../models');
 const ROLES = db.ROLES;
 const User = db.user;
-const JoiVerify = require('../controllers/user/registerController');
+const JoiVerify = require('../controllers/user/auth/mongoose/registerController');
 
-checkDuplicateUsernameOrEmail = (req, res, next) => {
+//Separate methods on modules withoud req,res : TODO
+const checkUser = (req, res, next) => {
   // Username
   User.findOne({
     where: {
@@ -16,23 +17,24 @@ checkDuplicateUsernameOrEmail = (req, res, next) => {
       });
       return;
     }
-
-    // Email
-    User.findOne({
-      where: {
-        email: req.body.email,
-      },
-    }).then(user => {
-      if (user) {
-        res.status(400).send({
-          message: 'Failed! Email is already in use!',
-        });
-        return;
-      }
-
-      next();
-    });
+    next();
   });
+};
+
+const checkEmail = (req, res, next) => {
+  User.findOne({
+    where: {
+      username: req.body.username,
+    },
+  }).then(user => {
+    if (user) {
+      res.status(400).send({
+        message: 'Failed! Username is already in use!',
+      });
+      return;
+    }
+  });
+  next();
 };
 
 checkRolesExisted = (req, res, next) => {
@@ -51,7 +53,10 @@ checkRolesExisted = (req, res, next) => {
 };
 
 const verifySignUp = {
-  checkDuplicateUsernameOrEmail: checkDuplicateUsernameOrEmail,
+  checkDuplicateUsernameOrEmail: {
+    checkUser,
+    checkEmail,
+  },
   checkRolesExisted: checkRolesExisted,
   JoiVerify,
 };

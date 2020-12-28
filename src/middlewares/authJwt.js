@@ -4,6 +4,7 @@ const db = require('../models');
 const User = db.user;
 
 verifyToken = (req, res, next) => {
+  res.header('x-acces-token, Origin, Content-Type, Accept');
   let token = req.headers['x-acces-token'];
 
   if (!token) {
@@ -50,12 +51,11 @@ isModerator = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === 'moderator') {
+        if (roles[i].name == 'moderator') {
           next();
           return;
         }
       }
-
       res.status(403).send({
         message: 'Require Moderator Role!',
       });

@@ -1,8 +1,7 @@
-const registerController = require('./registerController');
-const auth = require('../auth/auth.controller');
-const userOption = {
-  register: registerController,
+const auth = require('./auth');
+const create = require('./create');
+const method = {
   auth,
+  create,
 };
-
-module.exports = userOption;
+module.exports = method;

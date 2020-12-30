@@ -1,15 +1,8 @@
 const {authJwt} = require('../middlewares');
 const router = require('express').Router();
+const User = require('../models').user;
+const controller = require('../controllers');
 
-router.get('/verify', [authJwt.verifyToken], (res, req) => res.send('Cool'));
+router.post('/refresh-tokens', controller.token.refreshTokens);
 
-module.exports = app => {
-  app.use((req, res, next) => {
-    res.header(
-      'Access-Control-Allow-Headers',
-      'x-access-token, Origin, Content-Type, Accept',
-    );
-    next();
-  });
-  return router;
-};
+module.exports = router;

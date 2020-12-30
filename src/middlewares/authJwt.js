@@ -4,6 +4,7 @@ const db = require('../models');
 const User = db.user;
 
 verifyToken = (req, res, next) => {
+  res.header('x-acces-token, Origin, Content-Type, Accept');
   let token = req.headers['x-acces-token'];
 
   if (!token) {
@@ -14,11 +15,16 @@ verifyToken = (req, res, next) => {
 
   jwt.verify(token, config.secret, (err, decoded) => {
     if (err) {
-      return res.status(401).send({
-        message: 'Unauthorized!',
+      res.status(401).send({
+        message: err.message,
       });
+      return;
     }
-    req.userId = decoded.id;
+    if (decoded.type !== 'access') {
+      res.status(401).send({});
+      return;
+    }
+    req.userId = decoded.userId;
     next();
   });
 };
@@ -35,8 +41,7 @@ isAdmin = (req, res, next) => {
 
       res.status(403).send({
         message: 'Require Admin Role!',
-      });
-      return;
+      }); 
     });
   });
 };
@@ -45,12 +50,11 @@ isModerator = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
       for (let i = 0; i < roles.length; i++) {
-        if (roles[i].name === 'moderator') {
+        if (roles[i].name == 'moderator') {
           next();
           return;
         }
       }
-
       res.status(403).send({
         message: 'Require Moderator Role!',
       });

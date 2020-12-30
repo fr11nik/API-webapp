@@ -1,24 +1,21 @@
 const router = require('express').Router();
-const controllers = require('../controllers');
-const {verifySignUp} = require('../middlewares');
+const controller = require('../controllers');
+const {verifySignUp, authJwt} = require('../middlewares');
 
-router.post('/register', controllers.userController.register);
+router.post('/register', controller.user.auth.authMongoose.signUp);
 
 router.post(
   '/signup',
-  [verifySignUp.checkDuplicateUsernameOrEmail, verifySignUp.checkRolesExisted],
-  controllers.userController.auth.signup,
+  [
+    verifySignUp.checkDuplicateUsernameOrEmail.checkUser,
+    verifySignUp.checkDuplicateUsernameOrEmail.checkEmail,
+    controller.joi.signUpVerify,
+    verifySignUp.checkRolesExisted,
+  ],
+  controller.user.auth.authMySQL.signup,
 );
 
-router.post('/signin', controllers.userController.auth.signin);
+router.post('/signin', controller.user.auth.authMySQL.signin);
 
-module.exports = app => {
-  app.use((req, res, next) => {
-    res.header(
-      'Access-Control-Allow-Headers',
-      'x-access-token, Origin, Content-Type, Accept',
-    );
-    next();
-  });
-  return router;
-};
+
+module.exports = router;

@@ -9,6 +9,7 @@ router.post(
   [
     verifySignUp.checkDuplicateUsernameOrEmail.checkUser,
     verifySignUp.checkDuplicateUsernameOrEmail.checkEmail,
+    controller.joi.signUpVerify,
     verifySignUp.checkRolesExisted,
   ],
   controller.user.auth.authMySQL.signup,

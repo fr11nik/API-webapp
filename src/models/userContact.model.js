@@ -1,5 +1,4 @@
 module.exports = (sequelize, Sequelize) => {
-  const User = require('./user.model')(sequelize, Sequelize);
   const UserContact = sequelize.define('usersContactData', {
     firstname: {
       type: Sequelize.STRING,

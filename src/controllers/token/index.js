@@ -14,7 +14,7 @@ const updateToken = userId => {
   });
 };
 const refreshTokens = (req, res) => {
-  res.header('x-refresh-token, Origin, Content-Type, Accept');
+  res.header('Origin, Content-Type, Accept');
   ableToRefreshToken(req.body.refreshToken)
     .then(upgrade => {
       if (upgrade.isRefreshToken) {
@@ -24,7 +24,7 @@ const refreshTokens = (req, res) => {
       } else res.send({message: 'Invalid token!'});
     })
     .catch(error => {
-      res.status(400).send(error.message);
+      res.status(400).send({message: error});
       return;
     });
 };

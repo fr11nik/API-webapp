@@ -49,10 +49,14 @@ const ableToRefreshToken = refreshToken => {
         var isRefreshToken = payLoad.type !== 'refresh';
       } catch (err) {
         reject(err);
+        return;
       }
+      //add finger print THERE that's need for that make more security
       await Token.findOne({where: {tokenId: payLoad.id}}).then(token => {
         if (token === null) {
-          throw new TokenError('token is not valid');
+          // throw new TokenError('token is not valid');
+          reject('token is not valid');
+          return;
         } else isRefreshToken = true;
         resolve({
           error: null,

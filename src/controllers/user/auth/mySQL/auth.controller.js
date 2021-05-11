@@ -1,6 +1,7 @@
 const db = require('../../../../models');
 const token = require('../../../token');
 const bcrypt = require('bcryptjs');
+const cookie = require('cookie');
 
 const User = db.user;
 const Role = db.role;
@@ -49,7 +50,6 @@ exports.signin = (req, res) => {
         //User not found
         return res.status(404).send({message: 'Invalid login or password'});
       }
-
       var passwordIsValid = bcrypt.compareSync(req.body.password, user.password);
 
       if (!passwordIsValid) {
@@ -68,7 +68,7 @@ exports.signin = (req, res) => {
       var authorities = [];
       user.getRoles().then(roles => {
         for (let i = 0; i < roles.length; i++) {
-          authorities.push('ROLE_' + roles[i].name.toUpperCase());
+          authorities.push(roles[i].name);
         }
         res.status(200).send({
           id: user.id,

@@ -20,8 +20,10 @@ module.exports = (req, res, next) => {
   };
   var errors = validateJoi(userSchemaValidation, userData);
   if (errors) {
-    res.send(errors);
+    res.status(400).send({
+      message: errors,
+    });
     return;
-  } 
+  }
   next();
 };

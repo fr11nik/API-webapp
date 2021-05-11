@@ -41,11 +41,25 @@ isAdmin = (req, res, next) => {
 
       res.status(403).send({
         message: 'Require Admin Role!',
-      }); 
+      });
     });
   });
 };
-
+isDirector = (req, res, next) => {
+  User.findByPk(req.userId).then(user => {
+    user.getRoles().then(roles => {
+      for (let i = 0; i < roles.length; i++) {
+        if (roles[i].name == 'director') {
+          next();
+          return;
+        }
+      }
+      res.status(403).send({
+        message: 'Require Director Role!',
+      });
+    });
+  });
+};
 isModerator = (req, res, next) => {
   User.findByPk(req.userId).then(user => {
     user.getRoles().then(roles => {
@@ -85,9 +99,10 @@ isModeratorOrAdmin = (req, res, next) => {
 };
 
 const authJwt = {
-  verifyToken: verifyToken,
-  isAdmin: isAdmin,
-  isModerator: isModerator,
-  isModeratorOrAdmin: isModeratorOrAdmin,
+  verifyToken,
+  isAdmin,
+  isModerator,
+  isModeratorOrAdmin,
+  isDirector,
 };
 module.exports = authJwt;

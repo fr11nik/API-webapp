@@ -9,13 +9,14 @@ const startSave = (req, res) => {
     username: req.body.username,
     password: req.body.password,
     roles: req.body.roles,
+    email: req.body.email,
   };
   userSave(userData)
     .then(result => {
-      res.send(result);
+      res.send({message: result});
     })
     .catch(err => {
-      res.status(401).send(err);
+      res.status(401).send({message: err});
     });
 };
 

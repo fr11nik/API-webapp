@@ -17,9 +17,7 @@ exports.adminBoard = (req, res) => {
 exports.moderatorBoard = (req, res) => {
   res.status(200).send('Moderator Content.');
 };
-const resultAccesss = (req, res) => {
-  res.status(200);
-};
+
 exports.separatePermission = (req, res) => {
   var name = req.params.permission;
   if (name == 'adminpanel') {

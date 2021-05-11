@@ -10,10 +10,12 @@ const createUser = async ({
   username,
   password,
   roles,
+  email,
 }) => {
   return new Promise((resolve, reject) => {
     User.create({
       username: username,
+      email: email,
       password: bcrypt.hashSync(password, 8),
     }).then(user => {
       setRoles(user, roles).then(setRolesResult => {

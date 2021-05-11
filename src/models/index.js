@@ -9,6 +9,7 @@ db.user = require('./user.model')(sequelize, Sequelize);
 db.role = require('./role.model')(sequelize, Sequelize);
 db.token = require('./token.model')(sequelize, Sequelize);
 db.personalData = require('./userContact.model')(sequelize, Sequelize);
+db.WorkSchedule = require('./workschedule');
 //Create table user_roles via relation the belongsToMany
 db.role.belongsToMany(db.user, {
   through: 'user_roles',
@@ -20,5 +21,5 @@ db.user.belongsToMany(db.role, {
   foreignKey: 'userId',
   otherKey: 'roleId',
 });
-db.ROLES = ['user', 'admin', 'moderator'];
+db.ROLES = ['user', 'admin', 'moderator', 'director'];
 module.exports = db;
